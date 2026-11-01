@@ -5,14 +5,12 @@ import { getGoogleSheetUrl } from '../services/sheetService.ts';
 interface HeaderProps {
   currentTab: 'survey' | 'tracker';
   onSelectTab: (tab: 'survey' | 'tracker') => void;
-  onOpenGuide: () => void;
   isLiveConnected: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentTab,
   onSelectTab,
-  onOpenGuide,
   isLiveConnected,
 }) => {
   const sheetUrl = getGoogleSheetUrl();
@@ -71,15 +69,6 @@ export const Header: React.FC<HeaderProps> = ({
             {isLiveConnected && (
               <span className="w-2 h-2 rounded-full bg-emerald-400 absolute top-1.5 right-1.5 animate-ping" />
             )}
-          </button>
-
-          <button
-            onClick={onOpenGuide}
-            title="Hướng dẫn gắn Google Sheet & Deploy"
-            className="flex items-center gap-1 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#505B3E] hover:bg-[#EBEEE8] border border-[#DADFD3] transition-colors"
-          >
-            <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#819266]" />
-            <span className="hidden md:inline">Cài đặt Sheets</span>
           </button>
 
           {sheetUrl && sheetUrl !== 'https://docs.google.com/spreadsheets' && (

@@ -2,6 +2,16 @@ import React, { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Check, Sparkles, Loader2 } from 'lucide-react';
 import { QUESTIONS, QuestionOption } from '../data/questions.ts';
 
+interface SurveyViewProps {
+  currentQuestionIndex: number;
+  answers: Record<number, 'A' | 'B' | 'C'>;
+  onSelectOption: (optionKey: 'A' | 'B' | 'C') => void;
+  onNext: () => void;
+  onPrev: () => void;
+  onSubmit: () => void;
+  isSubmitting: boolean;
+}
+
 export const SurveyView: React.FC<SurveyViewProps> = ({
   currentQuestionIndex,
   answers,

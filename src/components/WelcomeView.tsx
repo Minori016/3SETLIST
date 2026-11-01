@@ -53,7 +53,7 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart, onViewTracker
           </span>
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-[#819266]" />
-            Hoàn toàn ẩn danh, không thu thập SĐT/Email
+            Tư vấn cá nhân hóa theo phong cách riêng
           </span>
           <span className="flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-[#819266]" />

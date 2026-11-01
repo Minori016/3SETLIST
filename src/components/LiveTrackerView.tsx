@@ -7,40 +7,30 @@ import {
   Sun,
   Star,
   ExternalLink,
-  HelpCircle,
   Clock,
   CheckCircle2,
   AlertCircle,
-  Check,
 } from 'lucide-react';
 import {
   fetchSurveyStats,
   SurveyStatsResponse,
-  getAppsScriptUrl,
   getGoogleSheetUrl,
-  setCustomAppsScriptUrl,
 } from '../services/sheetService.ts';
 import { QUESTIONS } from '../data/questions.ts';
 import { ELOT_RESULTS } from '../data/results.ts';
 
 interface LiveTrackerViewProps {
-  onOpenGuide: () => void;
   onTakeQuiz: () => void;
 }
 
 export const LiveTrackerView: React.FC<LiveTrackerViewProps> = ({
-  onOpenGuide,
   onTakeQuiz,
 }) => {
   const [stats, setStats] = useState<SurveyStatsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showConfig, setShowConfig] = useState(false);
-  const [customUrlInput, setCustomUrlInput] = useState('');
-  const [savedUrlSuccess, setSavedUrlSuccess] = useState(false);
 
-  const currentAppsScriptUrl = getAppsScriptUrl();
   const googleSheetUrl = getGoogleSheetUrl();
 
   const loadData = useCallback(async (isSilent = false) => {
@@ -66,17 +56,6 @@ export const LiveTrackerView: React.FC<LiveTrackerViewProps> = ({
     }, 10000);
     return () => clearInterval(interval);
   }, [loadData]);
-
-  const handleSaveCustomUrl = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCustomAppsScriptUrl(customUrlInput.trim());
-    setSavedUrlSuccess(true);
-    loadData();
-    setTimeout(() => {
-      setSavedUrlSuccess(false);
-      setShowConfig(false);
-    }, 1500);
-  };
 
   const getDominantLine = () => {
     if (!stats) return 'ELOT SOFT';
@@ -116,13 +95,6 @@ export const LiveTrackerView: React.FC<LiveTrackerViewProps> = ({
             <span>Làm mới</span>
           </button>
 
-          <button
-            onClick={() => setShowConfig(!showConfig)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EBEEE8] hover:bg-[#DADFD3] text-[#3A422E] text-xs sm:text-sm font-medium transition-colors"
-          >
-            <span>{showConfig ? 'Đóng cấu hình' : 'Nguồn dữ liệu'}</span>
-          </button>
-
           {googleSheetUrl && googleSheetUrl !== 'https://docs.google.com/spreadsheets' && (
             <a
               href={googleSheetUrl}
@@ -136,59 +108,6 @@ export const LiveTrackerView: React.FC<LiveTrackerViewProps> = ({
           )}
         </div>
       </div>
-
-      {/* Connection Notice / Config Panel */}
-      {showConfig && (
-        <div className="mb-8 p-5 sm:p-6 bg-white rounded-3xl border border-[#DADFD3] shadow-sm">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div>
-              <h3 className="font-serif font-bold text-lg text-[#1F1F1D]">
-                Cấu Hình Kết Nối Google Apps Script
-              </h3>
-              <p className="text-xs text-[#713D38] mt-0.5">
-                Bạn có thể dán URL Web App đã triển khai từ Apps Script tại đây để kết nối với Google Sheet thật.
-              </p>
-            </div>
-            <button
-              onClick={onOpenGuide}
-              className="flex items-center gap-1 text-xs font-semibold text-[#819266] hover:underline shrink-0"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>Xem hướng dẫn từng bước</span>
-            </button>
-          </div>
-
-          <form onSubmit={handleSaveCustomUrl} className="space-y-3">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="url"
-                placeholder="https://script.google.com/macros/s/.../exec"
-                value={customUrlInput}
-                onChange={e => setCustomUrlInput(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border-2 border-[#DADFD3] focus:border-[#819266] outline-none text-xs sm:text-sm"
-              />
-              <button
-                type="submit"
-                className="px-5 py-2.5 rounded-xl bg-[#819266] text-white font-semibold text-xs sm:text-sm hover:bg-[#687750] transition-colors shrink-0 flex items-center justify-center gap-2"
-              >
-                {savedUrlSuccess ? (
-                  <>
-                    <Check className="w-4 h-4" />
-                    <span>Đã lưu!</span>
-                  </>
-                ) : (
-                  <span>Áp dụng URL</span>
-                )}
-              </button>
-            </div>
-            {currentAppsScriptUrl && (
-              <p className="text-[11px] text-[#819266] font-mono break-all">
-                Đang dùng: {currentAppsScriptUrl}
-              </p>
-            )}
-          </form>
-        </div>
-      )}
 
       {/* Live status banner */}
       <div className={`p-4 rounded-2xl mb-8 border flex items-center justify-between gap-4 ${
@@ -206,24 +125,13 @@ export const LiveTrackerView: React.FC<LiveTrackerViewProps> = ({
             <span className="font-bold">
               {stats?.isLive
                 ? 'Đang kết nối trực tiếp với Google Sheets qua Google Apps Script'
-                : 'Chế độ mô phỏng trực quan & lưu trữ bộ nhớ'}
+                : 'Đang kết nối hệ thống dữ liệu Google Sheets'}
             </span>
             <p className="text-[11px] opacity-80 mt-0.5">
-              {stats?.isLive
-                ? 'Mọi lượt gửi mới sẽ xuất hiện trực tiếp trên trang tính của bạn ngay lập tức.'
-                : 'Bạn có thể làm thử khảo sát để thấy số liệu tăng lên, hoặc dán URL Web App để kích hoạt sync Google Sheet.'}
+              Dữ liệu được cập nhật tự động trực tiếp từ Google Sheet của bạn.
             </p>
           </div>
         </div>
-
-        {!stats?.isLive && (
-          <button
-            onClick={onOpenGuide}
-            className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-white border border-[#EAD4D2] hover:bg-[#FAF5F5] transition-colors shrink-0 text-[#713D38]"
-          >
-            Gắn link Sheet
-          </button>
-        )}
       </div>
 
       {/* Metric Cards Row */}

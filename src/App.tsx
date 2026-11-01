@@ -9,7 +9,6 @@ import { WelcomeView } from './components/WelcomeView.tsx';
 import { SurveyView } from './components/SurveyView.tsx';
 import { ResultView } from './components/ResultView.tsx';
 import { LiveTrackerView } from './components/LiveTrackerView.tsx';
-import { SetupGuideModal } from './components/SetupGuideModal.tsx';
 import { CustomerInfoView } from './components/CustomerInfoView.tsx';
 import { QUESTIONS } from './data/questions.ts';
 import { determineElotLine, ElotLine } from './data/rules.ts';
@@ -25,8 +24,7 @@ export default function App() {
   const [resultLine, setResultLine] = useState<ElotLine | null>(null);
   const [answersKey, setAnswersKey] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
-  const [isLiveConnected, setIsLiveConnected] = useState<boolean>(false);
+  const [isLiveConnected, setIsLiveConnected] = useState<boolean>(true);
 
   // Check URL query parameters: autostart=1 skips welcome
   useEffect(() => {
@@ -130,7 +128,6 @@ export default function App() {
           setCurrentTab(tab);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
-        onOpenGuide={() => setIsGuideOpen(true)}
         isLiveConnected={isLiveConnected}
       />
 
@@ -138,7 +135,6 @@ export default function App() {
       <main className="flex-1 flex flex-col">
         {currentTab === 'tracker' ? (
           <LiveTrackerView
-            onOpenGuide={() => setIsGuideOpen(true)}
             onTakeQuiz={() => {
               setCurrentTab('survey');
               setSurveyStep('customer_info');
@@ -197,25 +193,12 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-4 text-[11px]">
-            <button
-              onClick={() => setIsGuideOpen(true)}
-              className="text-[#819266] hover:underline cursor-pointer"
-            >
-              Cấu hình Google Sheet
-            </button>
+            <span className="text-[#713D38]">243 Tổ Hợp Phong Cách Độc Bản</span>
             <span>·</span>
-            <span className="text-[#713D38]">243 Tổ Hợp Phong Cách</span>
-            <span>·</span>
-            <span className="text-[#713D38]">Bảo mật & Ẩn danh</span>
+            <span className="text-[#713D38]">Đồng Bộ Google Sheets</span>
           </div>
         </div>
       </footer>
-
-      {/* Setup Guide Modal */}
-      <SetupGuideModal
-        isOpen={isGuideOpen}
-        onClose={() => setIsGuideOpen(false)}
-      />
     </div>
   );
 }

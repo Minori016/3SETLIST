@@ -44,23 +44,12 @@ export interface SurveyStatsResponse {
 }
 
 const STORAGE_KEY_LOCAL_SUBMISSIONS = 'elot_local_submissions_v1';
-const STORAGE_KEY_CUSTOM_APPS_SCRIPT = 'elot_custom_apps_script_url';
+
+// URL Google Apps Script cố định đã triển khai
+export const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyb-5YjZWW1SNVuPbZvk6RcCL40tT5n2z8VvsuIlYrNGRK2hAKSN_PNFFSUTtTNeip3A/exec';
 
 export function getAppsScriptUrl(): string {
-  // Ưu tiên URL lưu trong localStorage nếu người dùng test trực tiếp trên web, sau đó đến .env
-  const custom = localStorage.getItem(STORAGE_KEY_CUSTOM_APPS_SCRIPT);
-  if (custom && custom.trim().startsWith('http')) {
-    return custom.trim();
-  }
-  return (import.meta.env.VITE_APPS_SCRIPT_URL || '').trim();
-}
-
-export function setCustomAppsScriptUrl(url: string) {
-  if (url && url.trim().length > 0) {
-    localStorage.setItem(STORAGE_KEY_CUSTOM_APPS_SCRIPT, url.trim());
-  } else {
-    localStorage.removeItem(STORAGE_KEY_CUSTOM_APPS_SCRIPT);
-  }
+  return (import.meta.env.VITE_APPS_SCRIPT_URL || APPS_SCRIPT_URL).trim();
 }
 
 export function getGoogleSheetUrl(): string {
