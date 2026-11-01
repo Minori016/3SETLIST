@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-pink-50: #FAF5F5;
+  --color-pink-100: #F3E8E7;
+  --color-pink-200: #EAD4D2;
+  --color-pink-300: #DEB9B5;
+  --color-pink-400: #D5A6A2;
+  --color-pink-500: #CE9893;
+  --color-pink-600: #B96C65;
+  --color-pink-700: #984F48;
+  --color-pink-800: #713D38;
+  --color-pink-900: #492A27;
+
+  --color-green-50: #F5F6F3;
+  --color-green-100: #EBEEE8;
+  --color-green-200: #DADFD3;
+  --color-green-300: #C4CCB7;
+  --color-green-400: #A4B190;
+  --color-green-500: #819266;
+  --color-green-600: #687750;
+  --color-green-700: #505B3E;
+  --color-green-800: #3A422E;
+  --color-green-900: #25291E;
+
+  --color-paper: #FBF5EE;
+  --color-ink: #1F1F1D;
+  --color-sand: #CFB997;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Be Vietnam Pro", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #FBF5EE;
+  color: #1F1F1D;
+}
+
+h1, h2, h3, .font-serif-display {
+  font-family: var(--font-display);
+}

@@ -1,0 +1,6 @@
+{
+  "name": "ELOT Homewear Style Finder",
+  "description": "Khảo sát phong cách đồ bộ độc quyền ELOT - Khám phá dòng trang phục SOFT, DAILY hoặc ORIGINAL phù hợp nhất với bạn và theo dõi kết quả trực tiếp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
