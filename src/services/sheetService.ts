@@ -47,13 +47,14 @@ const STORAGE_KEY_LOCAL_SUBMISSIONS = 'elot_local_submissions_v1';
 
 // URL Google Apps Script cố định đã triển khai
 export const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyb-5YjZWW1SNVuPbZvk6RcCL40tT5n2z8VvsuIlYrNGRK2hAKSN_PNFFSUTtTNeip3A/exec';
+export const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/17zDt5sktSdJjcGFbl9rByqP9oTwp8HTH6qSV46iz6PM/edit?gid=0#gid=0';
 
 export function getAppsScriptUrl(): string {
   return (import.meta.env.VITE_APPS_SCRIPT_URL || APPS_SCRIPT_URL).trim();
 }
 
 export function getGoogleSheetUrl(): string {
-  return (import.meta.env.VITE_GOOGLE_SHEET_URL || 'https://docs.google.com/spreadsheets').trim();
+  return (import.meta.env.VITE_GOOGLE_SHEET_URL || GOOGLE_SHEET_URL).trim();
 }
 
 /**
