@@ -59,7 +59,7 @@ export function getGoogleSheetUrl(): string {
 
 /**
  * Gửi câu trả lời khảo sát lên Google Sheets
- * Đảm bảo gửi background, không chặn người dùng nếu mạng chậm hoặc lỗi
+ * Sử dụng POST text/plain no-cors trực tiếp tới doPost của Google Apps Script
  */
 export async function submitSurveyResponse(payload: SurveySubmissionPayload): Promise<{ success: boolean; isLive: boolean }> {
   // Lưu cục bộ ngay lập tức để cập nhật tracker tại chỗ
@@ -73,31 +73,19 @@ export async function submitSurveyResponse(payload: SurveySubmissionPayload): Pr
     return { success: true, isLive: false };
   }
 
-  try {
-    // 1. Gửi bằng GET query parameters (Tương thích 100% với Google Apps Script trong trình duyệt)
-    const params = new URLSearchParams({
-      action: 'submit',
-      name: payload.customerName || 'Ẩn danh',
-      email: payload.customerEmail || '',
-      key: payload.answersKey,
-      result: payload.result,
-      sessionId: payload.sessionId,
-    });
-    const targetUrl = url.includes('?') ? `${url}&${params.toString()}` : `${url}?${params.toString()}`;
-    await fetch(targetUrl, {
-      method: 'GET',
-      mode: 'no-cors',
-    });
-    return { success: true, isLive: true };
-  } catch (error) {
-    console.warn('Lỗi khi gửi kết quả bằng GET, thử tiếp bằng POST:', error);
-  }
+  const postData = {
+    customerName: payload.customerName || 'Ẩn danh',
+    customerEmail: payload.customerEmail || '',
+    answersKey: payload.answersKey,
+    result: payload.result,
+    sessionId: payload.sessionId,
+  };
 
   try {
-    // 2. Dự phòng bằng POST
+    // 1. Gửi trực tiếp bằng POST (doPost của Google Apps Script)
     await fetch(url, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(postData),
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
       },
@@ -105,9 +93,21 @@ export async function submitSurveyResponse(payload: SurveySubmissionPayload): Pr
     });
     return { success: true, isLive: true };
   } catch (err) {
-    console.warn('Lỗi khi gửi kết quả lên Google Apps Script:', err);
-    return { success: true, isLive: false };
+    console.warn('Lỗi khi gửi kết quả bằng POST fetch, thử tiếp bằng sendBeacon:', err);
   }
+
+  // 2. Dự phòng bằng navigator.sendBeacon
+  try {
+    if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+      const blob = new Blob([JSON.stringify(postData)], { type: 'text/plain;charset=utf-8' });
+      const sent = navigator.sendBeacon(url, blob);
+      if (sent) return { success: true, isLive: true };
+    }
+  } catch (beaconErr) {
+    console.warn('sendBeacon cũng không thành công:', beaconErr);
+  }
+
+  return { success: true, isLive: false };
 }
 
 /**
