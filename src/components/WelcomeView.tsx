@@ -10,22 +10,20 @@ interface WelcomeViewProps {
 export const WelcomeView: React.FC<WelcomeViewProps> = ({ onStart, onViewTracker }) => {
   return (
     <div className="py-8 sm:py-14 max-w-5xl mx-auto px-4 sm:px-6">
-      {/* Hero Badge */}
-      <div className="text-center mb-6">
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F3E8E7] text-[#713D38] text-xs sm:text-sm font-medium border border-[#EAD4D2] shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-[#B96C65]" />
-          ELOT Homewear Style Quiz 2025
-        </span>
-      </div>
 
       {/* Main Hero Header */}
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
         <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#1F1F1D] font-bold tracking-tight leading-[1.15] mb-5">
           Khám Phá Phong Cách Đồ Bộ Dành Riêng Cho Bạn
         </h1>
-        <p className="text-base sm:text-lg text-[#492A27]/90 leading-relaxed max-w-2xl mx-auto font-normal">
-          Mỗi khoảnh khắc ở nhà là một dịp để nâng niu bản thân. Dành 1 phút trả lời 5 câu hỏi trắc nghiệm nhẹ nhàng để ELOT giúp bạn giải mã dòng trang phục đồng điệu với tâm hồn nhất.
-        </p>
+        <div className="text-base sm:text-lg text-[#492A27]/90 leading-relaxed max-w-2xl mx-auto font-normal space-y-3">
+          <p>
+            Ở nhà là lúc bạn được là chính mình, tận hưởng sự thoải mái và lựa chọn phong cách yêu thích. Với ELOT, mỗi bộ đồ tole không chỉ mang đến cảm giác dễ chịu mà còn giúp bạn thể hiện cá tính theo cách riêng.
+          </p>
+          <p>
+            Bạn yêu thích phong cách nào? Hãy dành 1 phút trả lời 5 câu hỏi để ELOT giúp bạn tìm ra dòng đồ bộ tole phù hợp với sở thích và nhịp sống của mình nhé!
+          </p>
+        </div>
 
         {/* CTA Button */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
