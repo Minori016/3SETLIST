@@ -23,9 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('survey')}
           className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="w-10 h-10 rounded-full bg-[#CE9893] text-[#1F1F1D] flex items-center justify-center font-serif text-xl font-bold shadow-sm transition-transform group-hover:scale-105">
-            E
-          </div>
+          <img src="/logo.png" alt="ELOT Logo" className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm transition-transform group-hover:scale-105 border border-[#EAD4D2] bg-white" />
           <div>
             <div className="flex items-center gap-2">
               <span className="font-serif text-2xl font-bold tracking-wider text-[#1F1F1D]">
