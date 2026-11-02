@@ -185,17 +185,11 @@ export default function App() {
 
       {/* Elegant Footer */}
       <footer className="border-t border-[#DADFD3] bg-[#EBEEE8]/50 py-8 px-4 text-center text-xs text-[#713D38] mt-auto">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-center">
           <div className="flex items-center gap-2">
             <span className="font-serif font-bold text-base text-[#1F1F1D]">ELOT</span>
             <span className="text-[#819266]">·</span>
             <span>Homewear & Loungewear Collection</span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px]">
-            <span className="text-[#713D38]">243 Tổ Hợp Phong Cách Độc Bản</span>
-            <span>·</span>
-            <span className="text-[#713D38]">Đồng Bộ Google Sheets</span>
           </div>
         </div>
       </footer>
